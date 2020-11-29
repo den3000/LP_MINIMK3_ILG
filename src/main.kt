@@ -21,20 +21,22 @@ fun main() {
     println("What's root note?")
     val rootNote = readLine()
     var rootNoteInt = rootNote?.toInt(radix = 16) ?: 0
+    val initialRootNoteInt = rootNoteInt
 
     val rootNoteString = rootNoteInt.toString(radix = 16)
     val formattedRootNoteString = format(rootNoteString)
     println("Root note is $formattedRootNoteString ")
 
 
-    var padsGrid = mutableListOf<MutableList<Pad>>()
+    val padsGrid = mutableListOf<MutableList<Pad>>()
 
     val maxRow = 7
     val maxColumn = 7
     for (i in maxRow downTo 0 ) {
-        var padsRow = mutableListOf<Pad>()
+        val padsRow = mutableListOf<Pad>()
         for (j in 0..maxColumn) {
-            padsRow.add(Pad(positions[i][j], rootNoteInt.toString(radix = 16), "0000", "0034"))
+            val color = if ((rootNoteInt - initialRootNoteInt) % 12 == 0) "0031" else "0034"
+            padsRow.add(Pad(positions[i][j], rootNoteInt.toString(radix = 16), "0000", color))
             rootNoteInt += 1
         }
         padsGrid.add(0, padsRow)
