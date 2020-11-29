@@ -1,6 +1,6 @@
 data class Pad(val position: String, val note: String, val state: String, val color: String) {
     override fun toString(): String {
-        return "$position ${format(note)} $state $color "
+        return "$position $note $state $color "
     }
 }
 
@@ -32,7 +32,7 @@ fun main() {
         for (j in 0..maxColumn) {
             val currentNote: Int = startNote - offset
             val color = if ((currentNote - initialStartNote) % 12 == 0) "0031" else "0034"
-            padsRow.add(Pad(positions[i][j], currentNote.toString(radix = 16), "0000", color))
+            padsRow.add(Pad(positions[i][j], format(currentNote.toString(radix = 16)), "0000", color))
             startNote += 1
         }
         offset += 3
