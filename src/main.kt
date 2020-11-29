@@ -8,29 +8,32 @@ val prefix = "f000 2029 020d 0501 7f49 534f 5f32 0000\n7f00 0015 "
 val postfix = "f7"
 
 fun main() {
-    println("What's root note?")
-    val rootNote = readLine()
-    var rootNoteInt = rootNote?.toInt(radix = 16) ?: 0
-    val initialRootNoteInt = rootNoteInt
+    println("What's root note? [C, C#, D, D#, E, F, F#, G, G#, A, A#, B]")
+    val rootNote = readLine()?.toUpperCase()
+    val rootNoteFactor = noteMapping[rootNote] ?: 0
 
-    val rootNoteString = rootNoteInt.toString(radix = 16)
-    val formattedRootNoteString = format(rootNoteString)
+    println("What's octave? [-2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8]")
+    val octave = readLine()
+    val octaveFactor = octaveMapping[octave] ?: 0
+
+    var startNote = 0x0100 + rootNoteFactor + octaveFactor*12
+    val initialStartNote = startNote
+
+    val formattedRootNoteString = format(startNote.toString(16))
     println("Root note is $formattedRootNoteString ")
 
-
     val padsGrid = mutableListOf<MutableList<Pad>>()
-
     val maxRow = 7
     val maxColumn = 7
     var offset = 0
+
     for (i in maxRow downTo 0 ) {
         val padsRow = mutableListOf<Pad>()
         for (j in 0..maxColumn) {
-            val currentNote: Int = rootNoteInt - offset
-
-            val color = if ((currentNote - initialRootNoteInt) % 12 == 0) "0031" else "0034"
+            val currentNote: Int = startNote - offset
+            val color = if ((currentNote - initialStartNote) % 12 == 0) "0031" else "0034"
             padsRow.add(Pad(positions[i][j], currentNote.toString(radix = 16), "0000", color))
-            rootNoteInt += 1
+            startNote += 1
         }
         offset += 3
         padsGrid.add(0, padsRow)
