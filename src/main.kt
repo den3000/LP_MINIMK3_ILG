@@ -4,8 +4,9 @@ data class Pad(val position: String, val note: String, val state: String, val co
     }
 }
 
-val prefix = "f000 2029 020d 0501 7f49 534f 5f32 0000\n7f00 0015 "
-val postfix = "f7"
+const val prefix = "f000 2029 020d 0501 7f49 534f 5f32 0000\n7f00 0015 "
+const val postfix = "f7"
+const val lowestPossibleNote = 0x0100
 
 fun main() {
     println("What's root note? [C, C#, D, D#, E, F, F#, G, G#, A, A#, B]")
@@ -29,7 +30,7 @@ fun main() {
     val regularNoteColorIndex = readLine()?.toInt() ?: 26
     val regularNoteColor = colorMapping[regularNoteColorIndex]?.value ?: "0001"
 
-    var startNote = 0x0100 + rootNoteFactor + octaveFactor*12
+    var startNote = lowestPossibleNote + rootNoteFactor + octaveFactor*12
     val initialStartNote = startNote
 
     val formattedRootNoteString = format(startNote.toString(16))
