@@ -16,6 +16,19 @@ fun main() {
     val octave = readLine()
     val octaveFactor = octaveMapping[octave] ?: 0
 
+    println("Color scheme:")
+    colorMapping.entries.forEach {
+        println("${it.key}:${it.value.title}")
+    }
+
+    println("What's root note color:")
+    val rootNoteColorIndex = readLine()?.toInt() ?: 0
+    val rootNoteColor = colorMapping[rootNoteColorIndex]?.value ?: "0005"
+
+    println("What's regular note color:")
+    val regularNoteColorIndex = readLine()?.toInt() ?: 26
+    val regularNoteColor = colorMapping[regularNoteColorIndex]?.value ?: "0001"
+
     var startNote = 0x0100 + rootNoteFactor + octaveFactor*12
     val initialStartNote = startNote
 
@@ -31,7 +44,7 @@ fun main() {
         val padsRow = mutableListOf<Pad>()
         for (j in 0..maxColumn) {
             val currentNote: Int = startNote - offset
-            val color = if ((currentNote - initialStartNote) % 12 == 0) "0031" else "0034"
+            val color = if ((currentNote - initialStartNote) % 12 == 0) rootNoteColor else regularNoteColor
             padsRow.add(Pad(positions[i][j], format(currentNote.toString(radix = 16)), "0000", color))
             startNote += 1
         }
