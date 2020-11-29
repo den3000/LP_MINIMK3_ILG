@@ -32,13 +32,17 @@ fun main() {
 
     val maxRow = 7
     val maxColumn = 7
+    var offset = 0
     for (i in maxRow downTo 0 ) {
         val padsRow = mutableListOf<Pad>()
         for (j in 0..maxColumn) {
-            val color = if ((rootNoteInt - initialRootNoteInt) % 12 == 0) "0031" else "0034"
-            padsRow.add(Pad(positions[i][j], rootNoteInt.toString(radix = 16), "0000", color))
+            val currentNote: Int = rootNoteInt - offset
+
+            val color = if ((currentNote - initialRootNoteInt) % 12 == 0) "0031" else "0034"
+            padsRow.add(Pad(positions[i][j], currentNote.toString(radix = 16), "0000", color))
             rootNoteInt += 1
         }
+        offset += 3
         padsGrid.add(0, padsRow)
     }
 
