@@ -17,6 +17,9 @@ fun main() {
     val octave = readLine()
     val octaveFactor = octaveMapping[octave] ?: 0
 
+    println("What's horizontal grid offset? [-2, -1 , 0]")
+    val horizontalGridOffset = readLine()?.toInt() ?: 0
+
     println("Color scheme:")
     colorMapping.entries.forEach {
         println("${it.key}:${it.value.title}")
@@ -30,8 +33,10 @@ fun main() {
     val regularNoteColorIndex = readLine()?.toInt() ?: 26
     val regularNoteColor = colorMapping[regularNoteColorIndex]?.value ?: "0001"
 
-    var startNote = lowestPossibleNote + rootNoteFactor + octaveFactor*12
-    val initialStartNote = startNote
+    var startNote = lowestPossibleNote + rootNoteFactor + octaveFactor*12 - horizontalGridOffset
+    // TODO: Check that startNote is not lower than lowestPossibleNote
+
+    val initialStartNote = startNote + horizontalGridOffset
 
     val formattedRootNoteString = format(startNote.toString(16))
     println("Root note is $formattedRootNoteString ")
