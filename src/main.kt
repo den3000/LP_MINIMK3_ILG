@@ -81,7 +81,10 @@ fun main() {
         it.toInt(16).toByteArray()
     }.flatMap { it.asList() }.toByteArray()
 
-    File(finalFileName).writeBytes(bytes)
+    val mutableBytes = bytes.toMutableList()
+    mutableBytes.removeAt(bytes.size-2)
+
+    File(finalFileName).writeBytes(mutableBytes.toByteArray())
 }
 
 fun Int.toByteArray(): ByteArray {
