@@ -4,7 +4,7 @@ data class Pad(val position: String, val note: String, val state: String, val co
     }
 }
 
-const val prefix = "f000 2029 020d 0501 7f49 534f 5f32 0000\n7f00 0015 "
+const val prefix = "f000 2029 020d 0501 7f49 534f 5f32 0000 7f00 0015 "
 const val postfix = "f7"
 const val lowestPossibleNote = 0x0100
 
@@ -58,12 +58,18 @@ fun main() {
         padsGrid.add(0, padsRow)
     }
 
+    var finalString = prefix
     for (i in 0..maxRow) {
         for (j in 0..maxColumn) {
             print("${padsGrid[i][j]}")
+            finalString += padsGrid[i][j].toString()
         }
         println()
     }
+    finalString += postfix
+
+    println("--------------------")
+    println(finalString)
 }
 
 fun format(string: String): String {
